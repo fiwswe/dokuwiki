@@ -119,6 +119,26 @@ function getVersion(){
 }
 
 /**
+ * Compare the given version string to the currently running DokuWiki version.
+ * Meant for plugins/themes to be able to differentiate code paths for better
+ * backward compatibility in the face of deprecations and API changes.
+ *
+ * @param string version e.g. '2020-07-29' or '2022-07-31a'. Malformed version
+ *                       strings are not checked.
+ * @return int -1: $version < actual, 0: equal, or 1: $version > actual
+ */
+function compareVersion(string $version): int
+{
+    $dwVersion = getVersionData()['date'];
+    if ($version < $dwVersion) {
+        return -1;
+    } elseif ($version == $dwVersion) {
+        return 0;
+    }
+    return 1;
+}
+
+/**
  * Run a few sanity checks
  *
  * @author Andreas Gohr <andi@splitbrain.org>
