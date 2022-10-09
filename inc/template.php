@@ -546,7 +546,7 @@ function tpl_actionlink($type, $pre = '', $suf = '', $inner = '', $return = fals
             $linktarget = wl($id, $params);
         }
         $caption = $lang['btn_'.$type];
-        if(strpos($caption, '%s')){
+        if(strpos($caption, '%s') !== false){
             $caption = sprintf($caption, $replacement);
         }
         $akey    = $addTitle = '';
