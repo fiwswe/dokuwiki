@@ -82,7 +82,7 @@ abstract class AbstractItem {
         /** @var array $lang */
         global $lang;
         $label = $lang['btn_' . $this->type];
-        if(strpos($label, '%s')) {
+        if(strpos($label, '%s') !== false) {
             $label = sprintf($label, $this->replacement);
         }
         if($label === '') $label = '[' . $this->type . ']';
