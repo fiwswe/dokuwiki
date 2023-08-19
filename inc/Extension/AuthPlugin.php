@@ -239,6 +239,8 @@ abstract class AuthPlugin extends Plugin
     /**
      * Return user info [ MUST BE OVERRIDDEN ]
      *
+     * Do not call directly. Call safeGetUserData() instead.
+     *
      * Returns info about the given user needs to contain
      * at least these fields:
      *
@@ -255,6 +257,46 @@ abstract class AuthPlugin extends Plugin
     {
         if (!$this->cando['external']) msg("no valid authorisation system in use", -1);
         return false;
+    }
+
+    /**
+     * Return user info [ DO NOT OVERRIDE ]
+     *
+     * Returns info about the given user needs to contain
+     * at least these fields:
+     *
+     * name string  full name of the user
+     * mail string  email address of the user
+     * grps array   list of groups the user is in
+     *
+     * @author  fiwswe <dwplugin@fwml.de>
+     * @param   string $user the user name
+     * @param   bool $requireGroups whether or not the returned data must include groups
+     * @return  false|array containing user data or false
+     */
+    final public function safeGetUserData($user, $requireGroups = true)
+    {
+        $result = $this->getUserData($user, $requireGroups);
+        if ($result !== false) {
+            $api = ['name' => 'string',
+                    'mail' => 'string',
+                    'grps' => 'array'];
+            foreach ($api as $key => $type) {
+                if (!array_key_exists($key, $result) ||
+                    (gettype($result[$key]) != $type)) {
+                    Logger::debug('API contract violation!',get_class($this).'->getUserData() returned invalid result. '.$key.' missing or not of type '.$type.'.',__FILE__,__LINE__);
+                    return false;
+                }
+            }
+            if ($requireGroups && empty($result['grps'])) {
+                Logger::debug('API contract violation!',get_class($this).'->getUserData() returned empty \'grps\' key when $requireGroups parameter was true.',__FILE__,__LINE__);
+                return false;
+            }
+            // Note: The API contract does not guarantee non-empty values for the rest
+            //       of the keys. Thus this is not checked.
+        }
+
+        return $result;
     }
 
     /**
