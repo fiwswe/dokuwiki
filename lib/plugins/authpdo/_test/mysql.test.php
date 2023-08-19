@@ -149,7 +149,7 @@ class mysql_plugin_authpdo_test extends DokuWikiTest {
                 $newuser['grps']
             );
             $this->assertTrue($ok, $info);
-            $check = $auth->getUserData($newuser['user']);
+            $check = $auth->safeGetUserData($newuser['user']);
             $this->assertEquals($newuser['user'], $check['user'], $info);
             $this->assertEquals($newuser['mail'], $check['mail'], $info);
             $groups = array_merge($newuser['grps'], array($conf['defaultgroup']));
@@ -169,7 +169,7 @@ class mysql_plugin_authpdo_test extends DokuWikiTest {
 
         // minimal setup
         $this->assertTrue($auth->checkPass($user['user'], $user['pass']), $info);
-        $check = $auth->getUserData($user['user']);
+        $check = $auth->safeGetUserData($user['user']);
         $this->assertEquals($user['user'], $check['user'], $info);
         $this->assertEquals($user['name'], $check['name'], $info);
         $this->assertEquals($user['mail'], $check['mail'], $info);
@@ -201,7 +201,7 @@ class mysql_plugin_authpdo_test extends DokuWikiTest {
             $newgroup = 'foobar';
             $ok = $auth->modifyUser($user['user'], array('grps' => array($newgroup)));
             $this->assertTrue($ok, $info);
-            $check = $auth->getUserData($user['user']);
+            $check = $auth->safeGetUserData($user['user']);
             $this->assertTrue(in_array($newgroup, $check['grps']), $info);
         }
 
@@ -218,7 +218,7 @@ class mysql_plugin_authpdo_test extends DokuWikiTest {
             $newmail = 'foobar@example.com';
             $ok = $auth->modifyUser($user['user'], array('mail' => $newmail));
             $this->assertTrue($ok, $info);
-            $check = $auth->getUserData($user['user']);
+            $check = $auth->safeGetUserData($user['user']);
             $this->assertEquals($newmail, $check['mail'], $info);
         }
 
@@ -227,7 +227,7 @@ class mysql_plugin_authpdo_test extends DokuWikiTest {
             $newname = 'FirstName Foobar';
             $ok = $auth->modifyUser($user['user'], array('name' => $newname));
             $this->assertTrue($ok, $info);
-            $check = $auth->getUserData($user['user']);
+            $check = $auth->safeGetUserData($user['user']);
             $this->assertEquals($newname, $check['name'], $info);
         }
 
@@ -236,7 +236,7 @@ class mysql_plugin_authpdo_test extends DokuWikiTest {
             $newuser = 'foobar' . $user['user'];
             $ok = $auth->modifyUser($user['user'], array('user' => $newuser));
             $this->assertTrue($ok, $info);
-            $check = $auth->getUserData($newuser);
+            $check = $auth->safeGetUserData($newuser);
             $this->assertEquals($newuser, $check['user'], $info);
             // rename back
             $ok = $auth->modifyUser($newuser, array('user' => $user['user']));
@@ -247,7 +247,7 @@ class mysql_plugin_authpdo_test extends DokuWikiTest {
         if($auth->canDo('delUser')) {
             $num = $auth->deleteUsers(array($user['user']));
             $this->assertEquals(1, $num, $info);
-            $this->assertFalse($auth->getUserData($user['user']), $info);
+            $this->assertFalse($auth->safeGetUserData($user['user']), $info);
         }
     }
 
