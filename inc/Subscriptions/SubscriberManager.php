@@ -249,7 +249,7 @@ class SubscriberManager
         $result = [];
         foreach ($subscriptions as $target => $users) {
             foreach ($users as $user => $info) {
-                $userinfo = $auth->getUserData($user);
+                $userinfo = $auth->safeGetUserData($user);
                 if ($userinfo === false) {
                     continue;
                 }
