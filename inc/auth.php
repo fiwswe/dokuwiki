@@ -473,7 +473,7 @@ function auth_ismanager($user = null, $groups = null, $adminonly = false, $recac
         if ($USERINFO && $user === $INPUT->server->str('REMOTE_USER')) {
             $groups =  (array) $USERINFO['grps'];
         } else {
-            $groups = $auth->getUserData($user);
+            $groups = $auth->safeGetUserData($user);
             $groups = $groups ? $groups['grps'] : [];
         }
     }
@@ -835,7 +835,7 @@ function auth_sendPassword($user, $password) {
     if(!$auth) return false;
 
     $user     = $auth->cleanUser($user);
-    $userinfo = $auth->getUserData($user, $requireGroups = false);
+    $userinfo = $auth->safeGetUserData($user, $requireGroups = false);
 
     if(!$userinfo['mail']) return false;
 
@@ -1107,7 +1107,7 @@ function act_resendpwd() {
         }
 
         $user     = io_readfile($tfile);
-        $userinfo = $auth->getUserData($user, $requireGroups = false);
+        $userinfo = $auth->safeGetUserData($user, $requireGroups = false);
         if(!$userinfo['mail']) {
             msg($lang['resendpwdnouser'], -1);
             return false;
@@ -1159,7 +1159,7 @@ function act_resendpwd() {
             $user = trim($auth->cleanUser($INPUT->post->str('login')));
         }
 
-        $userinfo = $auth->getUserData($user, $requireGroups = false);
+        $userinfo = $auth->safeGetUserData($user, $requireGroups = false);
         if(!$userinfo['mail']) {
             msg($lang['resendpwdnouser'], -1);
             return false;
@@ -1250,7 +1250,7 @@ function auth_setCookie($user, $pass, $sticky) {
     global $USERINFO;
 
     if(!$auth) return false;
-    $USERINFO = $auth->getUserData($user);
+    $USERINFO = $auth->safeGetUserData($user);
 
     // set cookie
     $cookie    = base64_encode($user).'|'.((int) $sticky).'|'.base64_encode($pass);
