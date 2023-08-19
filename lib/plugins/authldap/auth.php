@@ -328,7 +328,7 @@ class auth_plugin_authldap extends DokuWiki_Auth_Plugin
         }
 
         // find the information about the user, in particular the "dn"
-        $info = $this->getUserData($user, true);
+        $info = $this->safeGetUserData($user, true);
         if (empty($info['dn'])) {
             $this->debug('LDAP cannot find your user dn', 0, __LINE__, __FILE__);
             return false;
@@ -432,7 +432,7 @@ class auth_plugin_authldap extends DokuWiki_Auth_Plugin
                 continue;
             }
             if ($info === false) {
-                $info = $this->getUserData($user);
+                $info = $this->safeGetUserData($user);
             }
             if ($this->filter($user, $info)) {
                 $result[$user] = $info;
