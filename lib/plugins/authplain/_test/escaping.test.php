@@ -45,7 +45,7 @@ class helper_plugin_authplain_escaping_test extends DokuWikiTest {
         $this->auth->createUser("mwuser", "12345", "Mediawiki User", "me@example.com");
         $this->reloadUsers();
         $this->assertTrue($this->auth->checkPass("mwuser", "12345"));
-        $mwuser = $this->auth->getUserData("mwuser");
+        $mwuser = $this->auth->safeGetUserData("mwuser");
         $this->assertStringStartsWith(":B:",$mwuser['pass']);
         $this->assertEquals("Mediawiki User",$mwuser['name']);
     }
@@ -54,7 +54,7 @@ class helper_plugin_authplain_escaping_test extends DokuWikiTest {
         $name = ":Colon: User:";
         $this->auth->createUser("colonuser", "password", $name, "me@example.com");
         $this->reloadUsers();
-        $user = $this->auth->getUserData("colonuser");
+        $user = $this->auth->safeGetUserData("colonuser");
         $this->assertEquals($name,$user['name']);
     }
 
@@ -62,20 +62,20 @@ class helper_plugin_authplain_escaping_test extends DokuWikiTest {
         $name = "\\Slash\\ User\\";
         $this->auth->createUser("slashuser", "password", $name, "me@example.com");
         $this->reloadUsers();
-        $user = $this->auth->getUserData("slashuser");
+        $user = $this->auth->safeGetUserData("slashuser");
         $this->assertEquals($name,$user['name']);
     }
 
     public function testModifyUser() {
         global $conf;
         $conf['passcrypt'] = 'mediawiki';
-        $user = $this->auth->getUserData("testuser");
+        $user = $this->auth->safeGetUserData("testuser");
         $user['name'] = "\\New:Crazy:Name\\";
         $user['pass'] = "awesome new password";
         $this->auth->modifyUser("testuser", $user);
         $this->reloadUsers();
 
-        $saved = $this->auth->getUserData("testuser");
+        $saved = $this->auth->safeGetUserData("testuser");
         $this->assertEquals($saved['name'], $user['name']);
         $this->assertTrue($this->auth->checkPass("testuser", $user['pass']));
     }
