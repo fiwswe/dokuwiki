@@ -479,7 +479,7 @@ class auth_plugin_authad extends DokuWiki_Auth_Plugin
                 continue;
             }
             if ($info === false) {
-                $info = $this->getUserData($user);
+                $info = $this->safeGetUserData($user);
             }
             if ($this->filter($user, $info)) {
                 $this->grpsusers[$this->filterToString($filter)][$user] = $info;
@@ -525,7 +525,7 @@ class auth_plugin_authad extends DokuWiki_Auth_Plugin
                     continue;
                 }
                 if ($info === false) {
-                    $info = $this->getUserData($user);
+                    $info = $this->safeGetUserData($user);
                 }
                 $result[$user] = $info;
                 if (($limit > 0) && (++$count >= $limit)) break;
