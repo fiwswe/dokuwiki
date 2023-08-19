@@ -230,7 +230,7 @@ class cli_plugin_usermanager extends DokuWiki_CLI_Plugin
 
         list($name, $newgrps) = $args;
         $newgrps = array_filter(array_map('trim', explode(',', $newgrps)));
-        $oldinfo = $auth->getUserData($name);
+        $oldinfo = $auth->safeGetUserData($name);
         $changes = array();
 
         if (!empty($newgrps) && $auth->canDo('modGroups')) {
@@ -268,7 +268,7 @@ class cli_plugin_usermanager extends DokuWiki_CLI_Plugin
 
         list($name, $grps) = $args;
         $grps = array_filter(array_map('trim', explode(',', $grps)));
-        $oldinfo = $auth->getUserData($name);
+        $oldinfo = $auth->safeGetUserData($name);
         $changes = array();
 
         if (!empty($grps) && $auth->canDo('modGroups')) {
