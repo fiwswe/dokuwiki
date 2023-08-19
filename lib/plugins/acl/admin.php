@@ -450,7 +450,7 @@ class admin_plugin_acl extends DokuWiki_Admin_Plugin
             $groups = array(ltrim($who, '@'));
         } else {
             $user = $who;
-            $info = $auth->getUserData($user);
+            $info = $auth->safeGetUserData($user);
             if ($info === false) {
                 $groups = array();
             } else {
