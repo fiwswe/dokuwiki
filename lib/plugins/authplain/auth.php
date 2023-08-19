@@ -66,7 +66,7 @@ class auth_plugin_authplain extends DokuWiki_Auth_Plugin
      */
     public function checkPass($user, $pass)
     {
-        $userinfo = $this->getUserData($user);
+        $userinfo = $this->safeGetUserData($user);
         if ($userinfo === false) return false;
 
         return auth_verifyPassword($pass, $this->users[$user]['pass']);
@@ -140,7 +140,7 @@ class auth_plugin_authplain extends DokuWiki_Auth_Plugin
         global $config_cascade;
 
         // user mustn't already exist
-        if ($this->getUserData($user) !== false) {
+        if ($this->safeGetUserData($user) !== false) {
             msg($this->getLang('userexists'), -1);
             return false;
         }
@@ -176,7 +176,7 @@ class auth_plugin_authplain extends DokuWiki_Auth_Plugin
         global $config_cascade;
 
         // sanity checks, user must already exist and there must be something to change
-        if (($userinfo = $this->getUserData($user)) === false) {
+        if (($userinfo = $this->safeGetUserData($user)) === false) {
             msg($this->getLang('usernotexists'), -1);
             return false;
         }
