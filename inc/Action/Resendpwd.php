@@ -96,7 +96,7 @@ class Resendpwd extends AbstractAclAction
             }
 
             $user = io_readfile($tfile);
-            $userinfo = $auth->getUserData($user, $requireGroups = false);
+            $userinfo = $auth->safeGetUserData($user, $requireGroups = false);
             if (empty($userinfo['mail'])) {
                 msg($lang['resendpwdnouser'], -1);
                 return false;
@@ -148,7 +148,7 @@ class Resendpwd extends AbstractAclAction
                 $user = trim($auth->cleanUser($INPUT->post->str('login')));
             }
 
-            $userinfo = $auth->getUserData($user, $requireGroups = false);
+            $userinfo = $auth->safeGetUserData($user, $requireGroups = false);
             if (empty($userinfo['mail'])) {
                 msg($lang['resendpwdnouser'], -1);
                 return false;
