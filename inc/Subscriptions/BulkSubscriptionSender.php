@@ -60,7 +60,7 @@ class BulkSubscriptionSender extends SubscriptionSender
                 }
 
                 // Work as the user to make sure ACLs apply correctly
-                $USERINFO = $auth->getUserData($user);
+                $USERINFO = $auth->safeGetUserData($user);
                 $INPUT->server->set('REMOTE_USER', $user);
                 if ($USERINFO === false) {
                     continue;
