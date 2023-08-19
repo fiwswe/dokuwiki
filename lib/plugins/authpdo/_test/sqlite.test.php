@@ -127,7 +127,7 @@ class sqlite_plugin_authpdo_test extends DokuWikiTest {
         $this->assertFalse($auth->checkPass('user', md5('password')));
 
         // access user data
-        $info = $auth->getUserData('admin');
+        $info = $auth->safeGetUserData('admin');
         $this->assertEquals('admin', $info['user']);
         $this->assertEquals('The Admin', $info['name']);
         $this->assertEquals('admin@example.com', $info['mail']);
@@ -140,7 +140,7 @@ class sqlite_plugin_authpdo_test extends DokuWikiTest {
 
         // user creation
         $auth->createUser('test', 'password', 'A Test user', 'test@example.com', array('newgroup'));
-        $info = $auth->getUserData('test');
+        $info = $auth->safeGetUserData('test');
         $this->assertEquals('test', $info['user']);
         $this->assertEquals('A Test user', $info['name']);
         $this->assertEquals('test@example.com', $info['mail']);
@@ -149,14 +149,14 @@ class sqlite_plugin_authpdo_test extends DokuWikiTest {
 
         // user modification
         $auth->modifyUser('test', array('user' => 'tester', 'name' => 'The Test User', 'pass' => 'secret'));
-        $info = $auth->getUserData('tester');
+        $info = $auth->safeGetUserData('tester');
         $this->assertEquals('tester', $info['user']);
         $this->assertEquals('The Test User', $info['name']);
         $this->assertTrue($auth->checkPass('tester','secret'));
 
         // move user to different groups
         $auth->modifyUser('tester', array('grps' => array('user', 'admin', 'another')));
-        $info = $auth->getUserData('tester');
+        $info = $auth->safeGetUserData('tester');
         $this->assertEquals(array('admin', 'another', 'user'), $info['grps']);
 
 
