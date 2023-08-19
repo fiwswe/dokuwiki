@@ -747,7 +747,7 @@ class ApiCore
             return auth_quickaclcheck($id);
         } else {
             if ($groups === null) {
-                $userinfo = $auth->getUserData($user);
+                $userinfo = $auth->safeGetUserData($user);
                 if ($userinfo === false) {
                     $groups = array();
                 } else {
