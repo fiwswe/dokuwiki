@@ -756,7 +756,7 @@ class admin_plugin_usermanager extends DokuWiki_Admin_Plugin
         if (!checkSecurityToken()) return false;
         if (!$this->auth->canDo('UserMod')) return false;
         $user = $this->auth->cleanUser(preg_replace('/.*[:\/]/', '', $param));
-        $userdata = $this->auth->getUserData($user);
+        $userdata = $this->auth->safeGetUserData($user);
 
         // no user found?
         if (!$userdata) {
@@ -784,7 +784,7 @@ class admin_plugin_usermanager extends DokuWiki_Admin_Plugin
 
         // get currently valid  user data
         $olduser = $this->auth->cleanUser(preg_replace('/.*[:\/]/', '', $INPUT->str('userid_old')));
-        $oldinfo = $this->auth->getUserData($olduser);
+        $oldinfo = $this->auth->safeGetUserData($olduser);
 
         // get new user data subject to change
         list($newuser,$newpass,$newname,$newmail,$newgrps,$passconfirm) = $this->retrieveUser();
@@ -798,7 +798,7 @@ class admin_plugin_usermanager extends DokuWiki_Admin_Plugin
             }
 
             // check if $newuser already exists
-            if ($this->auth->getUserData($newuser)) {
+            if ($this->auth->safeGetUserData($newuser)) {
                 msg(sprintf($this->lang['update_exists'], $newuser), -1);
                 $re_edit = true;
             } else {
