@@ -284,12 +284,17 @@ abstract class AuthPlugin extends Plugin
             foreach ($api as $key => $type) {
                 if (!array_key_exists($key, $result) ||
                     (gettype($result[$key]) != $type)) {
-                    Logger::debug('API contract violation!',get_class($this).'->getUserData() returned invalid result. '.$key.' missing or not of type '.$type.'.',__FILE__,__LINE__);
+                    Logger::debug('API contract violation!',
+                                  get_class().'->getUserData() returned invalid result. '.
+                                  'Key '.$key.' missing or not of type: '.$type.'.',
+                                  __FILE__,__LINE__);
                     return false;
                 }
             }
             if ($requireGroups && empty($result['grps'])) {
-                Logger::debug('API contract violation!',get_class($this).'->getUserData() returned empty \'grps\' key when $requireGroups parameter was true.',__FILE__,__LINE__);
+                Logger::debug('API contract violation!',
+                              get_class().'->getUserData(,true) returned empty \'grps\' key.',
+                              __FILE__,__LINE__);
                 return false;
             }
             // Note: The API contract does not guarantee non-empty values for the rest
