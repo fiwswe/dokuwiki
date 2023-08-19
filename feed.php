@@ -442,7 +442,7 @@ function rss_buildItems(&$rss, &$data, $opt)
 
                 // get real user name if configured
                 if ($conf['useacl'] && $auth) {
-                    $userInfo = $auth->getUserData($user);
+                    $userInfo = $auth->safeGetUserData($user);
                     if ($userInfo) {
                         switch ($conf['showuseras']) {
                             case 'username':
