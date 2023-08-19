@@ -237,7 +237,7 @@ class auth_plugin_authpdo extends DokuWiki_Auth_Plugin
     {
         global $conf;
 
-        if (($info = $this->getUserData($user, false)) !== false) {
+        if (($info = $this->safeGetUserData($user, false)) !== false) {
             msg($this->getLang('userexists'), -1);
             return false; // user already exists
         }
@@ -255,7 +255,7 @@ class auth_plugin_authpdo extends DokuWiki_Auth_Plugin
             // insert the user
             $ok = $this->query($this->getConf('insert-user'), $userdata);
             if ($ok === false) goto FAIL;
-            $userdata = $this->getUserData($user, false);
+            $userdata = $this->safeGetUserData($user, false);
             if ($userdata === false) goto FAIL;
 
             // create all groups that do not exist, the refetch the groups
@@ -297,13 +297,13 @@ class auth_plugin_authpdo extends DokuWiki_Auth_Plugin
         // secure everything in transaction
         $this->pdo->beginTransaction();
         {
-            $olddata = $this->getUserData($user);
+            $olddata = $this->safeGetUserData($user);
             $oldgroups = $olddata['grps'];
             unset($olddata['grps']);
 
             // changing the user name?
             if (isset($changes['user'])) {
-                if ($this->getUserData($changes['user'], false)) goto FAIL;
+                if ($this->safeGetUserData($changes['user'], false)) goto FAIL;
                 $params = $olddata;
                 $params['newlogin'] = $changes['user'];
 
@@ -429,7 +429,7 @@ class auth_plugin_authpdo extends DokuWiki_Auth_Plugin
                     $this->debugMsg("list-users statement did not return 'user' attribute", -1, __LINE__);
                     return array();
                 }
-                $users[] = $this->getUserData($row['user']);
+                $users[] = $this->safeGetUserData($row['user']);
             }
         } else {
             $this->debugMsg("list-users statement did not return a list of result", -1, __LINE__);
@@ -552,7 +552,7 @@ class auth_plugin_authpdo extends DokuWiki_Auth_Plugin
     {
         $this->pdo->beginTransaction();
         {
-            $userdata = $this->getUserData($user);
+            $userdata = $this->safeGetUserData($user);
             if ($userdata === false) goto FAIL;
             $allgroups = $this->selectGroups();
 
