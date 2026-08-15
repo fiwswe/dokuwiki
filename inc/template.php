@@ -1057,6 +1057,34 @@ function tpl_pagetitle($id = null, $ret = false)
 }
 
 /**
+ * Output or return the HTML <title> header element based on the current configuration
+ * settings and the context.
+ *
+ * @param string|null $id the page id
+ * @param bool $ret return the result if true, output it otherwise
+ * @return string|void
+ */
+function tpl_titleheader($id = null, $ret = false)
+{
+    global $conf;
+
+    $title = '<title>';
+    if ($conf['hasstatictitle'] ?? false) { // New configuration option, guard against it being missing
+        if (empty($conf['statictitle'] ?? null)) {  // Another new configuration option
+            $title .= strip_tags($conf['title']);
+        } else {
+            $title .= hsc($conf['statictitle']);
+        }
+    } else {
+        $title .= tpl_pagetitle($id, true) . ' [' . strip_tags($conf['title']) . ']';
+    }
+    $title .= '</title>';
+
+    if ($ret) return $title;
+    echo $title;
+}
+
+/**
  * Returns the requested EXIF/IPTC tag from the current image
  *
  * If $tags is an array all given tags are tried until a
