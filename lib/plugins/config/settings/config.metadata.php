@@ -83,6 +83,8 @@
 
 $meta['_basic'] = ['fieldset'];
 $meta['title'] = ['string'];
+$meta['hasstatictitle'] = ['onoff'];
+$meta['statictitle'] = ['string'];
 $meta['start'] = ['string', '_caution' => 'warning', '_pattern' => '!^[^:;/]+$!']; // don't accept namespaces
 $meta['lang'] = ['dirchoice', '_dir' => DOKU_INC . 'inc/lang/'];
 $meta['template'] = ['dirchoice', '_dir' => DOKU_INC . 'lib/tpl/', '_pattern' => '/^[\w-]+$/'];
