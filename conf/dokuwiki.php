@@ -14,6 +14,8 @@
 
 /* Basic Settings */
 $conf['title']       = 'DokuWiki';        //what to show in the title
+$conf['hasstatictitle'] = 0;              //does the wiki use a static HTML <title> header element? 0|1
+$conf['statictitle'] = '';                //if hasstatictitle is 1 use this instead of $conf['title']
 $conf['start']       = 'start';           //name of start page
 $conf['lang']        = 'en';              //your language
 $conf['template']    = 'dokuwiki';         //see lib/tpl directory
