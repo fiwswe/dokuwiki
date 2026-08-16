@@ -53,8 +53,8 @@ $lang['_msg_setting_no_default'] = 'No default value.';
 
 /* Basic Settings */
 $lang['title']       = 'Wiki title aka. your wiki\'s name';
-$lang['hasstatictitle'] = 'Use a static HTML <title> header element (if the template supports this)';
-$lang['statictitle'] = 'Use this as the static HTML <title> header element (if hasstatictitle is on and the template supports this). Empty defaults to the title setting. No HTML tags allowed.';
+$lang['hasstatictitle'] = 'Use a static HTML &lt;title&gt; header element (if the template supports this)';
+$lang['statictitle'] = 'Use this as the static HTML &lt;title&gt; header element (if hasstatictitle is on and the template supports this). Empty defaults to the title setting. No HTML tags allowed.';
 $lang['start']       = 'Page name to use as the starting point for each namespace';
 $lang['lang']        = 'Interface language';
 $lang['template']    = 'Template aka. the design of the wiki.';
