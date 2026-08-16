@@ -53,7 +53,7 @@ $lang['_msg_setting_no_default'] = 'No default value.';
 
 /* Basic Settings */
 $lang['title']       = 'Wiki title aka. your wiki\'s name';
-$lang['hasstatictitle'] = 'Use a static HTML <tt>&lt;title&gt;</tt> header element (if the template supports this)';
+$lang['hasstatictitle'] = 'Use a static HTML <tt>&lt;title&gt;</tt> header element (if the template supports this)<br>Note: Use this only in special cases. Leave off normally.';
 $lang['statictitle'] = 'Use this as the static HTML <tt>&lt;title&gt;</tt> header element (if <span lass="outkey"><a href="https://www.dokuwiki.org/config:hasstatictitle">hasstatictitle</a></span> is on and the template supports this). Leave empty to use the <span lass="outkey"><a href="https://www.dokuwiki.org/config:title">title</a></span> setting. Don\'t use HTML tags. They will appear literally.';
 $lang['start']       = 'Page name to use as the starting point for each namespace';
 $lang['lang']        = 'Interface language';
